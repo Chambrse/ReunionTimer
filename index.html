@@ -1,73 +1,93 @@
 <!DOCTYPE HTML>
 <html>
+
 <head>
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<style>
-p {
-  text-align: center;
-  align-content: center;
-  font-size: 60px;
-  margin-top: 0px;
-}
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <style>
+        p {
+            text-align: center;
+            align-content: center;
+            font-size: 60px;
+            margin-top: 0px;
+        }
 
-body {
-    height: 100%;
-    background-image: url('./images/20181215_201114.jpg');
-    background-repeat: no-repeat;
-    background-clip: content-box;
-    background-size: 100%;
-}
-</style>
-<script
-  src="https://code.jquery.com/jquery-3.3.1.min.js"
-  integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
-  crossorigin="anonymous"></script>
+        body {
+            background-color: black;
+        }
+
+        .white {
+            color: white;
+            text-align: center;
+        }
+
+        #image {
+            height: 50vh;
+        }
+
+        #images {
+            display: flex;
+            justify-content: center;
+        }
+    </style>
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
+        crossorigin="anonymous"></script>
 </head>
+
 <body>
+    <div class="container">
+        <div class="row jumbrotron">
+            <h2 class="white">Punkin and Pancake will be reunited in:</h2>
+            <p id="demo" class="white"></p>
+        </div>
+        <div class="row align-content-center">
+            <div id="images">
+                <img id="image" src="./images/1.jpg" />
+            </div>
+        </div>
+    </div>
 
-<p id="demo"></p>
 
-<script>
-// Set the date we're counting down to
-var countDownDate = new Date("Jun 7, 2019 12:00:00").getTime();
+    <script>
+        // Set the date we're counting down to
+        var countDownDate = new Date("Jun 7, 2019 12:00:00").getTime();
+        let numberOfImages = 18;
+        let slideshowInterval = setInterval(function () {
+            let imagePath = './images/' + Math.ceil(Math.random() * numberOfImages) + '.jpg';
+            console.log(imagePath);
+            $('#image').attr("src", imagePath);
+        }, 10000)
 
-$.ajax({
-    url : './images',
-    success: function (data) {
-        $(data).find("a").attr("href", function (i, val) {
-            if( val.match(/\.(jpe?g|png|gif)$/) ) { 
-                $("body").append( "<img src='"+ folder + val +"'>" );
-            } 
-        });
-    }
-});
+        function updateTimer() {
+            var now = new Date().getTime();
 
-// Update the count down every 1 second
-var x = setInterval(function() {
+            // Find the distance between now and the count down date
+            var distance = countDownDate - now;
 
-  // Get todays date and time
-  var now = new Date().getTime();
-    
-  // Find the distance between now and the count down date
-  var distance = countDownDate - now;
-    
-  // Time calculations for days, hours, minutes and seconds
-  var days = Math.floor(distance / (1000 * 60 * 60 * 24));
-  var hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-  var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
-  var seconds = Math.floor((distance % (1000 * 60)) / 1000);
-    
-  // Output the result in an element with id="demo"
-  document.getElementById("demo").innerHTML = days + "d " + hours + "h "
-  + minutes + "m " + seconds + "s ";
-    
-  // If the count down is over, write some text 
-  if (distance < 0) {
-    clearInterval(x);
-    document.getElementById("demo").innerHTML = "EXPIRED";
-  }
-}, 1000);
-</script>
+            // Time calculations for days, hours, minutes and seconds
+            var days = Math.floor(distance / (1000 * 60 * 60 * 24));
+            var hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+            var seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+            // Output the result in an element with id="demo"
+            document.getElementById("demo").innerHTML = days + "d " + hours + "h "
+                + minutes + "m " + seconds + "s ";
+
+            // If the count down is over, write some text 
+            if (distance < 0) {
+                clearInterval(x);
+                document.getElementById("demo").innerHTML = "EXPIRED";
+            }
+        }
+
+        updateTimer();
+
+        // Update the count down every 1 second
+        var x = setInterval(function () {
+            updateTimer();
+        }, 1000);
+    </script>
 
 </body>
+
 </html>
